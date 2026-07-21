@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parkash Meghwar - Smart AI & Devotional Social Hub</title>
+  
+  <!-- External Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <!-- Custom Styling & Theme System -->
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .accent-font {
+      font-family: 'Cinzel', serif;
+    }
+    
+    /* Cosmic / Saffron Gold Theme (Default) */
+    :root {
+      --bg-main: #0a0a14;
+      --bg-panel: #111126;
+      --bg-bubble-ai: #1b1b3a;
+      --bg-bubble-user: #eab308;
+      --border-color: #2a2a4e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #f59e0b;
+      --accent-rgb: 245, 158, 11;
+      --sidebar-width: 280px;
+    }
+
+    /* Clean White / Light Gold Theme */
+    [data-theme="light"] {
+      --bg-main: #f8fafc;
+      --bg-panel: #ffffff;
+      --bg-bubble-ai: #f1f5f9;
+      --bg-bubble-user: #f59e0b;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #d97706;
+      --accent-rgb: 217, 119, 6;
+    }
+
+    /* Cyberpunk Crimson */
+    [data-theme="cyberpunk"] {
+      --bg-main: #050505;
+      --bg-panel: #14050d;
+      --bg-bubble-ai: #240a18;
+      --bg-bubble-user: #e11d48;
+      --border-color: #4c0519;
+      --text-main: #fda4af;
+      --text-muted: #f43f5e;
+      --accent: #f43f5e;
+      --accent-rgb: 244, 63, 94;
+    }
+
+    /* Forest Emerald */
+    [data-theme="emerald"] {
+      --bg-main: #022c22;
+      --bg-panel: #064e3b;
+      --bg-bubble-ai: #065f46;
+      --bg-bubble-user: #10b981;
+      --border-color: #047857;
+      --text-main: #ecfdf5;
+      --text-muted: #a7f3d0;
+      --accent: #34d399;
+      --accent-rgb: 52, 211, 153;
+    }
+
+    .glow-effect {
+      box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.15);
+    }
+    .glow-border:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25);
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-custom::-webkit-scrollbar {
+      width: 5px;
+    }
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 99px;
+    }
+  </style>
+</head>
+<body class="bg-[var(--bg-main)] text-[var(--text-main)] h-screen overflow-hidden flex transition-all duration-300">
+
+  <!-- Mobile Menu Trigger Topbar -->
+  <div class="md:hidden fixed top-0 left-0 right-0 h-14 bg-[var(--bg-panel)] border-b border-[var(--border-color)] px-4 flex items-center justify-between z-30">
+    <div class="flex items-center space-x-2">
+      <span class="material-icons text-[var(--accent)] text-2xl">temple_hindu</span>
+      <span class="font-bold tracking-wider text-[var(--accent)] accent-font">Parkash Meghwar</span>
+    </div>
+    <button onclick="toggleMobileSidebar(true)" class="text-[var(--accent)]">
+      <span class="material-icons text-3xl">menu</span>
+    </button>
+  </div>
+
+  <!-- Sidebar Component (Responsive navigation and user list) -->
+  <aside id="sidebar-panel" class="fixed inset-y-0 left-0 w-[280px] bg-[var(--bg-panel)] border-r border-[var(--border-color)] z-40 transform -translate-x-full md:translate-x-0 md:relative flex flex-col justify-between transition-transform duration-300">
+    
+    <div>
+      <!-- Header Branding -->
+      <div class="p-5 border-b border-[var(--border-color)] flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+            🕉️
+          </div>
+          <div>
+            <h1 class="accent-font font-extrabold text-sm tracking-widest text-[var(--accent)] leading-none">PARKASH</h1>
+            <span class="text-[10px] text-[var(--text-muted)] tracking-wider">MEGHWAR AI HUB</span>
+          </div>
+        </div>
+        <button onclick="toggleMobileSidebar(false)" class="md:hidden text-[var(--text-muted)]">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="p-4 space-y-2">
+        <button onclick="switchTab('ai-chat')" id="btn-ai-chat" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-[var(--bg-bubble-ai)] border border-[var(--accent)]/30 text-[var(--accent)] font-semibold text-sm transition-all">
+          <span class="material-icons">psychology</span>
+          <span>🤖 Parkash AI Guru</span>
+        </button>
+        <button onclick="switchTab('satsang')" id="btn-satsang" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-[var(--text-muted)] hover:bg-[var(--border-color)] hover:text-[var(--text-main)] font-semibold text-sm transition-all">
+          <span class="material-icons">forum</span>
+          <span>👥 Public Satsang Chat</span>
+        </button>
+        <button onclick="switchTab('sanatan')" id="btn-sanatan" class="tab-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-[var(--text-muted)] hover:bg-[var(--border-color)] hover:text-[var(--text-main)] font-semibold text-sm transition-all">
+          <span class="material-icons">temple_hindu</span>
+          <span>🕉️ Sanatan Hub</span>
+        </button>
+        <button onclick="openModal('profile-modal')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-[var(--text-muted)] hover:bg-[var(--border-color)] hover:text-[var(--text-main)] font-semibold text-sm transition-all">
+          <span class="material-icons">account_circle</span>
+          <span>👤 Setup My Account</span>
+        </button>
+      </nav>
+
+      <!-- Active Users / Other Online Users Section -->
+      <div class="px-5 py-2">
+        <div class="flex items-center justify-between text-[11px] font-bold text-[var(--text-muted)] tracking-wider uppercase mb-3">
+          <span>👥 Devotees Online</span>
+          <span id="active-users-count" class="px-1.5 py-0.5 rounded-full bg-[var(--border-color)] text-[var(--accent)]">1</span>
+        </div>
+        <div id="users-list" class="space-y-2 max-h-[180px] overflow-y-auto scrollbar-custom pr-1">
+          <!-- Populated via Firestore dynamically -->
+          <div class="flex items-center space-x-2.5 py-1 px-2 rounded-lg bg-amber-500/5 border border-amber-500/10">
+            <span class="text-base">🕉️</span>
+            <span class="text-xs font-semibold truncate text-[var(--text-main)]">Awaiting login...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Profile & Branding Footer -->
+    <div class="p-4 border-t border-[var(--border-color)] bg-black/20">
+      <div class="flex items-center space-x-3 mb-3">
+        <div id="self-avatar" class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center text-lg">
+          👤
+        </div>
+        <div class="truncate">
+          <h4 id="self-name" class="font-bold text-sm truncate text-[var(--text-main)]">Guest Pilgrim</h4>
+          <span class="text-[10px] text-emerald-400 font-semibold flex items-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1"></span> Online
+          </span>
+        </div>
+      </div>
+      <a href="https://www.parkashmeghwar.com" target="_blank" rel="noopener noreferrer" class="block text-center text-[10px] font-medium text-[var(--accent)] hover:underline tracking-wider uppercase bg-amber-500/10 py-1.5 rounded-lg border border-amber-500/20">
+        🌐 www.parkashmeghwar.com
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content viewport container -->
+  <main class="flex-1 flex flex-col justify-between pt-14 md:pt-0 h-full relative overflow-hidden">
+    
+    <!-- Tab 1: AI Chat Viewport -->
+    <section id="tab-ai-chat" class="view-panel flex-1 flex flex-col justify-between h-full">
+      <!-- Title Header -->
+      <div class="bg-[var(--bg-panel)] px-6 py-4 border-b border-[var(--border-color)] flex items-center justify-between">
+        <div>
+          <h2 class="accent-font font-bold text-base tracking-wide text-[var(--accent)] flex items-center">
+            🤖 Parkash AI Guru <span class="ml-2 text-[10px] bg-amber-500/10 text-[var(--accent)] border border-amber-500/30 px-2 py-0.5 rounded-full">v3.5 PRO</span>
+          </h2>
+          <p class="text-xs text-[var(--text-muted)]">Bhagavad Gita Wisdom, Philosophy & AI Image Generation</p>
+        </div>
+        <button onclick="openModal('settings-modal')" class="p-2 rounded-xl border border-[var(--border-color)] hover:bg-[var(--border-color)] text-[var(--accent)] flex items-center transition-all">
+          <span class="material-icons">settings</span>
+        </button>
+      </div>
+
+      <!-- Messages Stream -->
+      <div id="ai-chat-messages" class="flex-1 overflow-y-auto px-6 py-6 space-y-4 scrollbar-custom">
+        <!-- AI Welcome Greeting Card -->
+        <div class="max-w-3xl mx-auto bg-[var(--bg-panel)] border border-[var(--border-color)] p-6 rounded-2xl glow-effect space-y-4">
+          <div class="flex items-start space-x-4">
+            <span class="text-3xl p-2 bg-amber-500/10 rounded-xl">🕉️</span>
+            <div>
+              <h3 class="accent-font font-bold text-lg text-[var(--accent)]">Pranam! Welcome to Parkash Meghwar Hub</h3>
+              <p class="text-sm text-[var(--text-muted)] mt-1 leading-relaxed">
+                Main aapka smart digital guide aur spiritual assistant hoon. Mujhse koi bhi personal masla puchen, Bhagavad Gita ke shlokon ka tatparya janen, coding ke masle hal karwayen, ya phir kisi bhi cheez ki **photo/tasveer** mangen!
+              </p>
+            </div>
+          </div>
+          <div class="border-t border-[var(--border-color)] pt-4 space-y-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">Try asking:</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button onclick="quickInput('Generate a beautiful divine painting of Lord Krishna in forest')" class="text-left text-xs p-2.5 rounded-xl border border-[var(--border-color)] hover:border-[var(--accent)] hover:bg-[var(--bg-main)] transition-all">
+                📸 "Generate a painting of Lord Krishna"
+              </button>
+              <button onclick="quickInput('Dharma aur Karma ka farq Bhagavad Gita ke mutabiq samjhayen')" class="text-left text-xs p-2.5 rounded-xl border border-[var(--border-color)] hover:border-[var(--accent)] hover:bg-[var(--bg-main)] transition-all">
+                🕉️ "Explain Dharma vs Karma"
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input controls for AI tab -->
+      <div class="bg-[var(--bg-panel)] border-t border-[var(--border-color)] p-4">
+        <form id="ai-chat-form" class="max-w-3xl mx-auto flex items-center space-x-3">
+          <div class="flex-1 relative flex items-center bg-[var(--bg-main)] rounded-xl border border-[var(--border-color)] px-4 py-1">
+            <input type="text" id="ai-user-input" placeholder="Type scriptural questions, general queries, or ask for images..." autocomplete="off" class="w-full bg-transparent border-0 outline-none text-sm py-3 text-[var(--text-main)] placeholder-[var(--text-muted)]" />
+          </div>
+          <button type="submit" class="bg-[var(--accent)] hover:opacity-90 active:scale-95 text-gray-950 font-bold px-6 py-3.5 rounded-xl flex items-center space-x-1 transition-all shadow-md">
+            <span class="material-icons text-lg">send</span>
+            <span class="hidden sm:inline">Ask AI</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Tab 2: Satsang Chat Viewport (Real-time P2P/Room Chat) -->
+    <section id="tab-satsang" class="view-panel flex-1 flex flex-col justify-between h-full hidden">
+      <!-- Satsang Header -->
+      <div class="bg-[var(--bg-panel)] px-6 py-4 border-b border-[var(--border-color)] flex items-center justify-between">
+        <div>
+          <h2 class="accent-font font-bold text-base tracking-wide text-[var(--accent)] flex items-center">
+            👥 Satsang Room Chat <span class="ml-2 text-xs text-emerald-400 font-semibold flex items-center bg-emerald-400/10 px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1"></span> Live</span>
+          </h2>
+          <p class="text-xs text-[var(--text-muted)]">Connect and share wisdom with other pilgrims real-time</p>
+        </div>
+        <button onclick="clearSatsangConfirm()" class="p-2 rounded-xl border border-red-500/20 hover:bg-red-500/10 text-red-500 flex items-center transition-all">
+          <span class="material-icons">delete_sweep</span>
+        </button>
+      </div>
+
+      <!-- Live Messages Stream -->
+      <div id="satsang-messages" class="flex-1 overflow-y-auto px-6 py-6 space-y-4 scrollbar-custom">
+        <!-- Live loaded dynamically -->
+        <div class="max-w-2xl mx-auto text-center py-12 text-[var(--text-muted)] text-sm italic">
+          No live broadcasts yet. Be the first to start the spiritual discussion!
+        </div>
+      </div>
+
+      <!-- Live Satsang Chat Input -->
+      <div class="bg-[var(--bg-panel)] border-t border-[var(--border-color)] p-4">
+        <form id="satsang-chat-form" class="max-w-3xl mx-auto flex items-center space-x-3">
+          <div class="flex-1 relative flex items-center bg-[var(--bg-main)] rounded-xl border border-[var(--border-color)] px-4 py-1">
+            <input type="text" id="satsang-user-input" placeholder="Broadcasting live message to everyone online..." autocomplete="off" class="w-full bg-transparent border-0 outline-none text-sm py-3 text-[var(--text-main)] placeholder-[var(--text-muted)]" />
+          </div>
+          <button type="submit" class="bg-amber-500 hover:bg-amber-600 active:scale-95 text-gray-950 font-bold px-6 py-3.5 rounded-xl flex items-center space-x-1 transition-all shadow-md">
+            <span class="material-icons text-lg">campaign</span>
+            <span>Broadcast</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Tab 3: Sanatan Hub Viewport -->
+    <section id="tab-sanatan" class="view-panel flex-1 flex flex-col justify-between h-full hidden">
+      <div class="bg-[var(--bg-panel)] px-6 py-4 border-b border-[var(--border-color)]">
+        <h2 class="accent-font font-bold text-base tracking-wide text-[var(--accent)]">🕉️ Sanatan Dharma Hub</h2>
+        <p class="text-xs text-[var(--text-muted)]">Upanishads, Bhagavad Gita, Ritual Calendars & Sacred Mantras</p>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-custom">
+        <!-- Gita Shloka Card -->
+        <div class="bg-gradient-to-br from-[var(--bg-panel)] to-[var(--bg-main)] border border-amber-500/20 rounded-2xl p-6 glow-effect relative overflow-hidden">
+          <div class="absolute -right-8 -bottom-8 text-amber-500/5 text-8xl font-bold font-serif select-none">🕉️</div>
+          <div class="flex items-center space-x-2 text-[var(--accent)] mb-3">
+            <span class="material-icons text-sm">auto_stories</span>
+            <span class="text-xs font-bold uppercase tracking-widest">Srimad Bhagavad Gita Verse of the Day</span>
+          </div>
+          <p id="shloka-sanskrit" class="text-lg font-bold text-amber-300 tracking-wide leading-relaxed italic border-l-2 border-[var(--accent)] pl-4 py-1">
+            यदा यदा ही धर्मस्य ग्लानिर्भवति भारत ।<br>अभ्युत्थानमधर्मस्य तदात्मानं सृजाम्यहम् ॥
+          </p>
+          <div class="mt-4 space-y-1 text-sm text-[var(--text-muted)]">
+            <p class="font-semibold text-[var(--text-main)]">Chapter 4, Verse 7 Translation:</p>
+            <p id="shloka-translation" class="italic">"Whenever and wherever there is a decline in religious practice, O descendant of Bharata, and a predominant rise of irreligion—at that time I descend Myself."</p>
+          </div>
+          <button onclick="getNewShloka()" class="mt-4 text-xs font-bold text-[var(--accent)] hover:underline flex items-center space-x-1">
+            <span class="material-icons text-xs">sync</span>
+            <span>Load Next Shloka</span>
+          </button>
+        </div>
+
+        <!-- Two column feature grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Upcoming Hindu Festivals -->
+          <div class="bg-[var(--bg-panel)] border border-[var(--border-color)] p-5 rounded-2xl space-y-4">
+            <div class="flex items-center space-x-2 text-[var(--accent)] border-b border-[var(--border-color)] pb-2.5">
+              <span class="material-icons">event_note</span>
+              <h3 class="font-bold text-sm uppercase tracking-wider">Festival Calendar (2026)</h3>
+            </div>
+            <ul id="festival-list" class="space-y-3 text-sm">
+              <li class="flex justify-between items-center bg-black/10 p-2.5 rounded-lg">
+                <span class="font-semibold">Maha Shivaratri</span>
+                <span class="text-xs text-[var(--accent)] bg-amber-500/10 px-2 py-0.5 rounded-full font-bold">Feb 15, 2026</span>
+              </li>
+              <li class="flex justify-between items-center bg-black/10 p-2.5 rounded-lg">
+                <span class="font-semibold">Holi (Festival of Colors)</span>
+                <span class="text-xs text-[var(--accent)] bg-amber-500/10 px-2 py-0.5 rounded-full font-bold">Mar 3, 2026</span>
+              </li>
+              <li class="flex justify-between items-center bg-black/10 p-2.5 rounded-lg">
+                <span class="font-semibold">Rama Navami</span>
+                <span class="text-xs text-[var(--accent)] bg-amber-500/10 px-2 py-0.5 rounded-full font-bold">Mar 27, 2026</span>
+              </li>
+              <li class="flex justify-between items-center bg-black/10 p-2.5 rounded-lg">
+                <span class="font-semibold">Krishna Janmashtami</span>
+                <span class="text-xs text-[var(--accent)] bg-amber-500/10 px-2 py-0.5 rounded-full font-bold">Sep 4, 2026</span>
+              </li>
+              <li class="flex justify-between items-center bg-black/10 p-2.5 rounded-lg">
+                <span class="font-semibold">Diwali (Deepavali)</span>
+                <span class="text-xs text-[var(--accent)] bg-amber-500/10 px-2 py-0.5 rounded-full font-bold">Nov 8, 2026</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Divine Ambient Mantra Player -->
+          <div class="bg-[var(--bg-panel)] border border-[var(--border-color)] p-5 rounded-2xl flex flex-col justify-between">
+            <div>
+              <div class="flex items-center space-x-2 text-[var(--accent)] border-b border-[var(--border-color)] pb-2.5 mb-4">
+                <span class="material-icons">music_note</span>
+                <h3 class="font-bold text-sm uppercase tracking-wider">Divine Mantras Ambient Player</h3>
+              </div>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-4">
+                Select a sacred mantra to meditate and experience inner stillness. Sound synthesizes locally on your browser.
+              </p>
+              
+              <!-- Synthesized Mantra Player Controls -->
+              <div class="bg-black/20 p-4 rounded-xl border border-[var(--border-color)] space-y-3">
+                <div class="flex items-center justify-between">
+                  <span id="active-mantra-title" class="text-sm font-bold text-amber-300">OM (Eternal Sound)</span>
+                  <span id="playback-status" class="text-[10px] text-[var(--text-muted)] font-semibold uppercase tracking-wider">Stopped</span>
+                </div>
+                
+                <div class="flex items-center justify-between space-x-2 pt-2">
+                  <select id="mantra-select" onchange="updateMantraSelection()" class="flex-1 bg-[var(--bg-main)] border border-[var(--border-color)] text-xs rounded-lg p-2 text-[var(--text-main)]">
+                    <option value="om">OM Meditation Drone</option>
+                    <option value="gayatri">Gayatri Mantra Rythmic Chime</option>
+                    <option value="shiva">Shiva Tandava Cosmic Synth</option>
+                  </select>
+                  <button id="btn-mantra-toggle" onclick="toggleMantraAudio()" class="w-10 h-10 rounded-lg bg-[var(--accent)] hover:opacity-90 flex items-center justify-center text-gray-950 font-bold shadow-md transition-all">
+                    <span class="material-icons">play_arrow</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-[11px] text-[var(--text-muted)] mt-4 text-center leading-relaxed">
+              Designed by **Parkash Meghwar** to promote spiritual mindfulness.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global App Branding Footer inside Main container -->
+    <footer class="bg-[var(--bg-panel)] px-6 py-2 border-t border-[var(--border-color)] text-[10px] text-[var(--text-muted)] flex flex-col sm:flex-row justify-between items-center gap-1.5 z-10">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-[var(--text-main)] text-xs">Parkash Meghwar</span>
+        <span class="w-1 h-1 rounded-full bg-[var(--text-muted)]"></span>
+        <a href="https://www.parkashmeghwar.com" target="_blank" rel="noopener noreferrer" class="hover:underline text-[var(--accent)]">www.parkashmeghwar.com</a>
+      </div>
+      <p>© 2026 Parkash Meghwar Hub. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <!-- Setup My Account Profile Modal -->
+  <div class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 transition-opacity duration-300 hidden" id="profile-modal">
+    <div class="bg-[var(--bg-panel)] border border-[var(--border-color)] w-full max-w-md rounded-2xl p-6 shadow-2xl relative transform scale-95 duration-300">
+      <button onclick="closeModal('profile-modal')" class="absolute top-4 right-4 text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors">
+        <span class="material-icons">close</span>
+      </button>
+
+      <div class="flex items-center space-x-2.5 border-b border-[var(--border-color)] pb-3 mb-5">
+        <span class="material-icons text-amber-500">account_circle</span>
+        <h3 class="accent-font text-lg font-extrabold text-[var(--accent)]">Setup Pilgrim Account</h3>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-1.5">📝 Your Display Name:</label>
+          <input type="text" id="profile-name-input" placeholder="Enter your full name..." class="w-full bg-[var(--bg-main)] border border-[var(--border-color)] focus:border-[var(--accent)] rounded-xl p-3 outline-none text-sm text-[var(--text-main)]" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-1.5">🔮 Spiritual Avatar Icon / Emoji:</label>
+          <select id="profile-avatar-input" class="w-full bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl p-3 outline-none text-sm text-[var(--text-main)]">
+            <option value="🕉️">🕉️ Om Symbol</option>
+            <option value="🛕">🛕 Mandir (Temple)</option>
+            <option value="🦚">🦚 Peacock Feather</option>
+            <option value="🌺">🌺 Hibiscus Flower</option>
+            <option value="🧘">🧘 Yogi Yogi</option>
+            <option value="🐚">🐚 Shankha (Conch)</option>
+          </select>
+        </div>
+
+        <button onclick="saveUserProfile()" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:opacity-95 text-gray-950 py-3 rounded-xl font-bold text-sm transition-all shadow-lg mt-2">
+          Save & Broadcast Profile
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Settings Modal -->
+  <div class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 transition-opacity duration-300 hidden" id="settings-modal">
+    <div class="bg-[var(--bg-panel)] border border-[var(--border-color)] w-full max-w-md rounded-2xl p-6 shadow-2xl relative transform scale-95 duration-300">
+      <button onclick="closeModal('settings-modal')" class="absolute top-4 right-4 text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors">
+        <span class="material-icons">close</span>
+      </button>
+
+      <div class="flex items-center space-x-2.5 border-b border-[var(--border-color)] pb-3 mb-5">
+        <span class="material-icons text-amber-500">settings</span>
+        <h3 class="accent-font text-lg font-extrabold text-[var(--accent)]">App Settings</h3>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-1.5">🎨 Theme Mode Selector:</label>
+          <select id="theme-selector" onchange="changeTheme(this.value)" class="w-full bg-[var(--bg-main)] border border-[var(--border-color)] rounded-xl p-3 outline-none text-sm text-[var(--text-main)]">
+            <option value="dark">🌙 Cosmic Saffron Gold (Default)</option>
+            <option value="light">☀️ Divine Clean Light</option>
+            <option value="cyberpunk">⚡ Cyberpunk Crimson</option>
+            <option value="emerald">🌲 Forest Emerald</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">🔑 Google Gemini API Key:</label>
+            <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" class="text-[10px] text-[var(--accent)] hover:underline flex items-center space-x-0.5">
+              <span>Get Free Key</span>
+              <span class="material-icons text-[10px]">open_in_new</span>
+            </a>
+          </div>
+          <input type="password" id="gemini-key" placeholder="Paste Gemini Pro API Key..." class="w-full bg-[var(--bg-main)] border border-[var(--border-color)] focus:border-[var(--accent)] rounded-xl p-3 outline-none text-sm placeholder-[var(--text-muted)] text-[var(--text-main)]" />
+          <p class="text-[10px] text-[var(--text-muted)] mt-1.5 leading-relaxed">
+            API key enter karne se **Parkash AI** professional, fast, aur dynamic response dena shuru ho jayega. Khali chorne par simulated fallback offline and scripts wisdom milegi.
+          </p>
+        </div>
+
+        <button onclick="promptClearChat()" class="w-full bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white border border-red-500/20 py-3 rounded-xl font-bold text-sm transition-all mt-4">
+          🗑️ Clear AI Chat History
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customized Alert/Confirm Dialog Modal (Substitute for window.alert / window.confirm) -->
+  <div class="modal-overlay fixed inset-0 flex items-center justify-center p-4 z-50 hidden" id="custom-dialog">
+    <div class="bg-[var(--bg-panel)] border border-[var(--border-color)] max-w-sm w-full p-6 rounded-2xl shadow-2xl text-center space-y-4">
+      <div class="w-12 h-12 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
+        <span class="material-icons text-2xl animate-pulse" id="dialog-icon">warning</span>
+      </div>
+      <h4 class="text-base font-bold text-[var(--text-main)]" id="dialog-title">Are you sure?</h4>
+      <p class="text-xs text-[var(--text-muted)] leading-relaxed" id="dialog-message">This action cannot be undone.</p>
+      <div class="flex items-center space-x-3 pt-2">
+        <button onclick="closeCustomDialog(false)" class="flex-1 border border-[var(--border-color)] text-xs font-semibold py-2.5 rounded-xl hover:bg-[var(--bg-main)] transition-colors">Cancel</button>
+        <button id="dialog-action-btn" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition-colors">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Toast Notification System Container -->
+  <div class="fixed bottom-24 left-1/2 -translate-x-1/2 flex flex-col space-y-2 pointer-events-none z-50" id="toast-container"></div>
+
+  <!-- Firebase Script Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, addDoc, onSnapshot, collection, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Global System State
+    window.appState = {
+      appId: typeof __app_id !== 'undefined' ? __app_id : 'default-parkash-hub',
+      user: null,
+      username: 'Guest Pilgrim',
+      avatar: '🕉️',
+      theme: 'dark',
+      geminiKey: '',
+      isGenerating: false,
+      activeTab: 'ai-chat'
+    };
+
+    // Firebase Init Setup
+    let app, db, auth;
+    
+    // Fallback Mock Firebase configuration in case env block is unavailable
+    const fallbackConfig = {
+      apiKey: "AIzaSyDummyKey-ForLocalPlaygroundEnvOnly",
+      authDomain: "default-parkash-hub.firebaseapp.com",
+      projectId: "default-parkash-hub",
+      storageBucket: "default-parkash-hub.appspot.com",
+      messagingSenderId: "1234567890",
+      appId: "1:12345:web:dummy"
+    };
+
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : fallbackConfig;
+
+    try {
+      app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      auth = getAuth(app);
+    } catch (e) {
+      console.warn("Firebase failed to initialize cleanly with provided config. Falling back to local offline mode.");
+    }
+
+    // Connect to Firestore & Auth Realtime
+    window.onload = async () => {
+      // 1. Theme Configuration Initialization
+      const savedTheme = localStorage.getItem('parkash_theme') || 'dark';
+      window.appState.theme = savedTheme;
+      document.body.setAttribute('data-theme', savedTheme);
+      document.getElementById('theme-selector').value = savedTheme;
+
+      const savedKey = localStorage.getItem('parkash_gemini_key') || '';
+      window.appState.geminiKey = savedKey;
+      document.getElementById('gemini-key').value = savedKey;
+
+      const savedName = localStorage.getItem('parkash_username') || '';
+      const savedAvatar = localStorage.getItem('parkash_avatar') || '🕉️';
+      if(savedName) {
+        window.appState.username = savedName;
+        window.appState.avatar = savedAvatar;
+        updateLocalProfileUI();
+      }
+
+      // Check if user is already saved, if not auto-open setup profile modal on fresh load
+      if(!savedName) {
+        setTimeout(() => openModal('profile-modal'), 1200);
+      }
+
+      // Live listen local configuration saves
+      document.getElementById('gemini-key').addEventListener('input', (e) => {
+        window.appState.geminiKey = e.target.value.trim();
+        localStorage.setItem('parkash_gemini_key', window.appState.geminiKey);
+      });
+
+      // 2. Real-time Firebase Authentication
+      if (auth && db) {
+        try {
+          // Rule 3: Auth Before Queries. Ensure Anonymous / Custom login finishes first.
+          let userCredential;
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            userCredential = await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            userCredential = await signInAnonymously(auth);
+          }
+          window.appState.user = userCredential.user;
+          showToast(`Saranam! pilgrim connected anonymously.`, 'success');
+
+          // Register profile instantly
+          await syncProfileWithFirestore();
+
+          // Initialize real-time streams
+          initRealtimeStreams();
+        } catch (error) {
+          console.error("Authentication / Sync error: ", error);
+          showToast("Cloud connection restricted. Running offline simulator.", "error");
+          setupLocalSimulatedStreams();
+        }
+      } else {
+        setupLocalSimulatedStreams();
+      }
+
+      // Initialize Gita Quote initially
+      getNewShloka();
+    };
+
+    // Firebase Active Data Stream Setup
+    function initRealtimeStreams() {
+      const appId = window.appState.appId;
+      const uid = window.appState.user?.uid || 'anonymous-user';
+
+      // Stream 1: Online Devotees List
+      const activeUsersCollection = collection(db, 'artifacts', appId, 'public', 'data', 'active_users');
+      onSnapshot(activeUsersCollection, (snapshot) => {
+        const usersListDiv = document.getElementById('users-list');
+        usersListDiv.innerHTML = '';
+        let onlineCount = 0;
+        
+        snapshot.forEach((doc) => {
+          const u = doc.data();
+          onlineCount++;
+          const row = document.createElement('div');
+          row.className = "flex items-center space-x-2.5 py-1 px-2 rounded-lg bg-amber-500/5 hover:bg-amber-500/10 transition-colors cursor-pointer border border-amber-500/10";
+          row.innerHTML = `
+            <span class="text-base">${u.avatar || '🕉️'}</span>
+            <span class="text-xs font-semibold truncate text-[var(--text-main)]">${u.username || 'Mystic Pilgrim'}</span>
+          `;
+          usersListDiv.appendChild(row);
+        });
+
+        document.getElementById('active-users-count').innerText = onlineCount;
+      }, (error) => {
+        console.warn("Active users stream closed or restricted: ", error);
+      });
+
+      // Stream 2: Public Satsang Group Room Messages
+      const satsangCollection = collection(db, 'artifacts', appId, 'public', 'data', 'messages');
+      onSnapshot(satsangCollection, (snapshot) => {
+        const streamContainer = document.getElementById('satsang-messages');
+        streamContainer.innerHTML = '';
+        
+        const sortedMsgs = [];
+        snapshot.forEach((doc) => {
+          sortedMsgs.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Rule 2: Sort in Javascript memory instead of complex orderBy queries to prevent SDK crashes
+        sortedMsgs.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+        if (sortedMsgs.length === 0) {
+          streamContainer.innerHTML = `
+            <div class="max-w-2xl mx-auto text-center py-12 text-[var(--text-muted)] text-sm italic">
+              No live broadcasts yet. Be the first to start the spiritual discussion!
+            </div>
+          `;
+          return;
+        }
+
+        sortedMsgs.forEach((msg) => {
+          const isMe = msg.uid === uid;
+          const card = document.createElement('div');
+          card.className = `flex w-full ${isMe ? 'justify-end' : 'justify-start'} animate-fade-in`;
+          card.innerHTML = `
+            <div class="max-w-[75%] flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+              <span class="text-[10px] text-[var(--text-muted)] mb-1 px-1.5 font-bold">${msg.avatar || '🕉️'} ${msg.username || 'Pilgrim'}</span>
+              <div class="px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-lg ${isMe ? 'bg-[var(--accent)] text-gray-950 rounded-br-none' : 'bg-[var(--bg-bubble-ai)] border border-[var(--border-color)] text-[var(--text-main)] rounded-bl-none'}">
+                ${escapeHtml(msg.text)}
+              </div>
+              <span class="text-[9px] text-[var(--text-muted)] mt-1 px-1.5">${msg.timeString || 'Recently'}</span>
+            </div>
+          `;
+          streamContainer.appendChild(card);
+        });
+
+        streamContainer.scrollTop = streamContainer.scrollHeight;
+      }, (error) => {
+        console.warn("Satsang message stream closed or restricted: ", error);
+      });
+    }
+
+    // Local / Offline Simulation Backup Fallbacks
+    function setupLocalSimulatedStreams() {
+      console.log("Entering simulation mode...");
+      const usersListDiv = document.getElementById('users-list');
+      usersListDiv.innerHTML = `
+        <div class="flex items-center space-x-2.5 py-1 px-2 rounded-lg bg-amber-500/5 border border-amber-500/10">
+          <span class="text-base">🕉️</span>
+          <span class="text-xs font-semibold truncate text-[var(--text-main)]">Awaiting pilot account...</span>
+        </div>
+      `;
+    }
+
+    // Sync current pilgrims state dynamically inside Firestore collection
+    async function syncProfileWithFirestore() {
+      if (!auth.currentUser || !db) return;
+      const appId = window.appState.appId;
+      const uid = auth.currentUser.uid;
+      
+      const userDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'active_users', uid);
+      try {
+        await setDoc(userDocRef, {
+          uid: uid,
+          username: window.appState.username,
+          avatar: window.appState.avatar,
+          timestamp: Date.now()
+        }, { merge: true });
+      } catch (e) {
+        console.warn("Unable to save active pilgrim record: ", e);
+      }
+    }
+
+    // Expose dynamic functions directly globally
+    window.syncProfileWithFirestore = syncProfileWithFirestore;
+  </script>
+
+  <!-- Sound Meditation Synthesizer Chimes -->
+  <script>
+    let audioCtx = null;
+    let mainOsc = null;
+    let lfoOsc = null;
+    let mantraInterval = null;
+    let isMantraPlaying = false;
+
+    // Web Audio Synthesis to support offline ambient mantric audio with absolutely zero URLs
+    function initAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function toggleMantraAudio() {
+      initAudioContext();
+      const statusText = document.getElementById('playback-status');
+      const toggleBtn = document.getElementById('btn-mantra-toggle');
+
+      if (isMantraPlaying) {
+        stopMantraAudio();
+        statusText.innerText = 'Stopped';
+        toggleBtn.innerHTML = `<span class="material-icons">play_arrow</span>`;
+        isMantraPlaying = false;
+        showToast("Meditative audio playback paused.", "info");
+      } else {
+        startMantraAudio();
+        statusText.innerText = 'Chanting Live';
+        toggleBtn.innerHTML = `<span class="material-icons">pause</span>`;
+        isMantraPlaying = true;
+        showToast("Divine frequency synth started.", "success");
+      }
+    }
+
+    function startMantraAudio() {
+      const type = document.getElementById('mantra-select').value;
+      
+      if (type === 'om') {
+        // Deep eternal cosmic drone synthesizer
+        mainOsc = audioCtx.createOscillator();
+        const mainGain = audioCtx.createGain();
+        lfoOsc = audioCtx.createOscillator();
+        const lfoGain = audioCtx.createGain();
+
+        mainOsc.type = 'sawtooth';
+        mainOsc.frequency.setValueAtTime(136.1, audioCtx.currentTime); // 136.1Hz - Sacred frequency of OM Cosmic scale
+
+        // Filter out extreme high harmonics to generate deep humming drone
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(150, audioCtx.currentTime);
+
+        // Ambient volume modulation
+        mainGain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+        
+        lfoOsc.frequency.setValueAtTime(0.2, audioCtx.currentTime); // LFO at 0.2Hz (Slow deep cosmic rhythm)
+        lfoGain.gain.setValueAtTime(15, audioCtx.currentTime);
+
+        lfoOsc.connect(lfoGain);
+        lfoGain.connect(mainOsc.frequency);
+        mainOsc.connect(filter);
+        filter.connect(mainGain);
+        mainGain.connect(audioCtx.destination);
+
+        mainOsc.start();
+        lfoOsc.start();
+      } else {
+        // Rhythmic Vedic bell chiming simulation loop
+        let nextBeat = audioCtx.currentTime;
+        const speed = type === 'gayatri' ? 1.5 : 0.8;
+        
+        mantraInterval = setInterval(() => {
+          const osc = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
+          
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(type === 'gayatri' ? 329.63 : 220, audioCtx.currentTime); // Chime pitch variations
+          
+          gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + speed);
+
+          osc.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          
+          osc.start();
+          osc.stop(audioCtx.currentTime + speed);
+        }, speed * 1000);
+      }
+    }
+
+    function stopMantraAudio() {
+      if (mainOsc) {
+        try { mainOsc.stop(); } catch(e){}
+        mainOsc = null;
+      }
+      if (lfoOsc) {
+        try { lfoOsc.stop(); } catch(e){}
+        lfoOsc = null;
+      }
+      if (mantraInterval) {
+        clearInterval(mantraInterval);
+        mantraInterval = null;
+      }
+    }
+
+    function updateMantraSelection() {
+      const selection = document.getElementById('mantra-select');
+      const title = document.getElementById('active-mantra-title');
+      
+      const mappedTitles = {
+        om: 'OM (Sacred Eternal Cosmos Frequency)',
+        gayatri: 'Gayatri Devotional Rhythmic Bells',
+        shiva: 'Tandava Cosmic High Synthesizer'
+      };
+
+      title.innerText = mappedTitles[selection.value] || 'Sacred Sound';
+      
+      if (isMantraPlaying) {
+        stopMantraAudio();
+        startMantraAudio();
+      }
+    }
+  </script>
+
+  <!-- Scriptural Bhagavad Gita Database -->
+  <script>
+    const GITA_SHLOKAS = [
+      {
+        sanskrit: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन ।<br>मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ॥",
+        translation: "You have a right to perform your prescribed duty, but you are not entitled to the fruits of action. Never consider yourself the cause of the results of your activities, and never be associated with not doing your duty."
+      },
+      {
+        sanskrit: "यदा यदा हि धर्मस्य ग्लानिर्भवति भारत ।<br>अभ्युत्थानमधर्मस्य तदात्मानं सृजाम्यहम् ॥",
+        translation: "Whenever and wherever there is a decline in religious practice, O descendant of Bharata, and a predominant rise of irreligion—at that time I descend Myself."
+      },
+      {
+        sanskrit: "परित्राणाय साधूनां विनाशाय च दुष्कृताम् ।<br>धर्मसंस्थापनार्थाय सम्भवामि युगे युगे ॥",
+        translation: "To deliver the pious and to annihilate the miscreants, as well as to reestablish the principles of religion, I Myself appear, millennium after millennium."
+      },
+      {
+        sanskrit: "न जायते म्रियते वा कदाचिन्<br>नायं भूत्वा भविता वा न भूयः ।",
+        translation: "For the soul there is neither birth nor death at any time. He has not come into being, does not come into being, and will not come into being. He is unborn, eternal, ever-existing and primeval."
+      }
+    ];
+
+    let shlokaIndex = 0;
+
+    function getNewShloka() {
+      shlokaIndex = (shlokaIndex + 1) % GITA_SHLOKAS.length;
+      const s = GITA_SHLOKAS[shlokaIndex];
+      document.getElementById('shloka-sanskrit').innerHTML = s.sanskrit;
+      document.getElementById('shloka-translation').innerText = s.translation;
+    }
+  </script>
+
+  <!-- Main UI Control and Interaction Logic -->
+  <script>
+    // Navigation Tabs Controller
+    function switchTab(tabId) {
+      document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-[var(--bg-bubble-ai)]', 'border', 'border-[var(--accent)]/30', 'text-[var(--accent)]');
+        btn.classList.add('text-[var(--text-muted)]', 'hover:bg-[var(--border-color)]', 'hover:text-[var(--text-main)]');
+      });
+
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`btn-${tabId}`);
+      activeBtn.classList.remove('text-[var(--text-muted)]', 'hover:bg-[var(--border-color)]', 'hover:text-[var(--text-main)]');
+      activeBtn.classList.add('bg-[var(--bg-bubble-ai)]', 'border', 'border-[var(--accent)]/30', 'text-[var(--accent)]');
+      
+      window.appState.activeTab = tabId;
+      toggleMobileSidebar(false);
+    }
+
+    // Modal Control System
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.children[0].classList.remove('scale-95');
+        modal.children[0].classList.add('scale-100');
+      }, 50);
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.children[0].classList.remove('scale-100');
+      modal.children[0].classList.add('scale-95');
+      setTimeout(() => modal.classList.add('hidden'), 200);
+    }
+
+    // Responsive Mobile Drawer Panel toggle
+    function toggleMobileSidebar(open) {
+      const panel = document.getElementById('sidebar-panel');
+      if(open) {
+        panel.classList.remove('-translate-x-full');
+      } else {
+        panel.classList.add('-translate-x-full');
+      }
+    }
+
+    // Dynamic Theme Swapping Engine
+    function changeTheme(themeName) {
+      document.body.setAttribute('data-theme', themeName);
+      window.appState.theme = themeName;
+      localStorage.setItem('parkash_theme', themeName);
+    }
+
+    // Action Confirmation before deletion in group chats
+    let dialogCallback = null;
+    function openCustomDialog(title, message, iconType, confirmText, callback) {
+      const dialog = document.getElementById('custom-dialog');
+      document.getElementById('dialog-title').innerText = title;
+      document.getElementById('dialog-message').innerText = message;
+      document.getElementById('dialog-icon').innerText = iconType;
+      
+      const actionBtn = document.getElementById('dialog-action-btn');
+      actionBtn.innerText = confirmText;
+      
+      dialog.classList.remove('hidden');
+      dialogCallback = callback;
+    }
+
+    function closeCustomDialog(confirmed) {
+      document.getElementById('custom-dialog').classList.add('hidden');
+      if (confirmed && dialogCallback) {
+        dialogCallback();
+      }
+      dialogCallback = null;
+    }
+
+    document.getElementById('dialog-action-btn').addEventListener('click', () => closeCustomDialog(true));
+
+    // Clear AI History Trigger
+    function promptClearChat() {
+      openCustomDialog(
+        "Clear AI History",
+        "Kya aap waqai apni personal AI conversation details delete karna chahte hain?",
+        "delete_forever",
+        "Clear History",
+        () => {
+          document.getElementById('ai-chat-messages').innerHTML = '';
+          addAiChatMessage('ai', 'All private interactions purged cleanly. Feel free to seek new devotional advice.');
+          closeModal('settings-modal');
+          showToast("AI memory reset successfully.", "success");
+        }
+      );
+    }
+
+    // Toast triggers instead of annoying native window.alert/confirms
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      const bgColor = type === 'success' ? 'bg-amber-500 text-gray-950' : 'bg-red-600 text-white';
+      const icon = type === 'success' ? 'done' : 'error';
+
+      toast.className = `${bgColor} text-xs font-bold px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 animate-bounce pointer-events-auto transition-opacity duration-300`;
+      toast.innerHTML = `
+        <span class="material-icons text-sm">${icon}</span>
+        <span>${message}</span>
+      `;
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Save and Sync Custom Accounts on Submit
+    function saveUserProfile() {
+      const name = document.getElementById('profile-name-input').value.trim();
+      const avatar = document.getElementById('profile-avatar-input').value;
+
+      if (!name) {
+        showToast("Please enter a valid pilgrims name.", "error");
+        return;
+      }
+
+      window.appState.username = name;
+      window.appState.avatar = avatar;
+
+      localStorage.setItem('parkash_username', name);
+      localStorage.setItem('parkash_avatar', avatar);
+
+      updateLocalProfileUI();
+      closeModal('profile-modal');
+      showToast("Spiritual pilgrim profile updated online!", "success");
+
+      // Sync to Firebase if loaded
+      if (window.syncProfileWithFirestore) {
+        window.syncProfileWithFirestore();
+      }
+    }
+
+    function updateLocalProfileUI() {
+      document.getElementById('self-name').innerText = window.appState.username;
+      document.getElementById('self-avatar').innerText = window.appState.avatar;
+    }
+
+    // Suggestions helpers
+    function quickInput(text) {
+      const field = document.getElementById('ai-user-input');
+      field.value = text;
+      field.focus();
+    }
+
+    // Safety escaping to secure chats
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.innerText = text;
+      return div.innerHTML;
+    }
+  </script>
+
+  <!-- Live Satsang Chat Submission handler -->
+  <script type="module">
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const satsangForm = document.getElementById('satsang-chat-form');
+    satsangForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('satsang-user-input');
+      const val = input.value.trim();
+      
+      if(!val) return;
+
+      const user = window.appState.user;
+      if (!user) {
+        showToast("Pilgrim is not authenticated. Setup your profile or wait for online connection.", "error");
+        return;
+      }
+
+      const db = getFirestore();
+      const appId = window.appState.appId;
+
+      try {
+        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'messages'), {
+          uid: user.uid,
+          username: window.appState.username,
+          avatar: window.appState.avatar,
+          text: val,
+          timestamp: Date.now(),
+          timeString: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+        
+        input.value = '';
+      } catch (error) {
+        console.error("Failed to broadcast Satsang message: ", error);
+        showToast("Live database broadcast failure. Retrying...", "error");
+      }
+    });
+
+    // Simulated Satsang Purging Confirmation Modal
+    window.clearSatsangConfirm = function() {
+      openCustomDialog(
+        "Reset Satsang Room",
+        "Kya aap waqai public Satsang Chat clear karna chahte hain? (Reset locally for your visual stream).",
+        "delete_sweep",
+        "Reset Room",
+        () => {
+          document.getElementById('satsang-messages').innerHTML = `
+            <div class="max-w-2xl mx-auto text-center py-12 text-[var(--text-muted)] text-sm italic">
+              All active local sessions wiped clean.
+            </div>
+          `;
+          showToast("Local Satsang stream cleared.", "info");
+        }
+      );
+    }
+  </script>
+
+  <!-- Gemini AI & Photo Generator Request handler -->
+  <script>
+    const aiForm = document.getElementById('ai-chat-form');
+
+    function addAiChatMessage(sender, text, isHtml = false) {
+      const stream = document.getElementById('ai-chat-messages');
+      const row = document.createElement('div');
+      row.className = `flex w-full ${sender === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`;
+      
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const avatarStr = sender === 'user' ? window.appState.avatar : '🕉️';
+      const nameStr = sender === 'user' ? window.appState.username : 'Parkash AI';
+
+      row.innerHTML = `
+        <div class="max-w-[80%] flex flex-col ${sender === 'user' ? 'items-end' : 'items-start'}">
+          <span class="text-[10px] text-[var(--text-muted)] mb-1 px-1.5 font-bold">${avatarStr} ${nameStr}</span>
+          <div class="px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-lg ${sender === 'user' ? 'bg-[var(--accent)] text-gray-950 rounded-br-none' : 'bg-[var(--bg-bubble-ai)] border border-[var(--border-color)] text-[var(--text-main)] rounded-bl-none'}">
+            ${isHtml ? text : escapeHtml(text)}
+          </div>
+          <span class="text-[9px] text-[var(--text-muted)] mt-1 px-1.5">${time}</span>
+        </div>
+      `;
+
+      stream.appendChild(row);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    async function queryGoogleGemini(prompt, apiKey) {
+      // Specialized System Prompt embedding Hindu/Sanatan Dharma scripture contextual knowledge
+      const systemInstruction = "Aapka naam 'Parkash Meghwar AI' hai. Aap ek intelligent Hindu Spiritual Devotional Guide aur AI coding expert hain. Users ke questions ke answers professional aur helpful andaz mein deep Sanatan wisdom, Karma philosophy, aur Bhagavad Gita ke shlokon ke citations ke sath Roman Urdu/Hindi aur English mixed language mein provide karen.";
+
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: `${systemInstruction}\n\nUser Question: ${prompt}` }] }]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("Invalid or restricted Gemini API Key provided. Change settings.");
+      }
+
+      const data = await response.json();
+      return data.candidates[0].content.parts[0].text;
+    }
+
+    aiForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('ai-user-input');
+      const val = input.value.trim();
+
+      if (!val || window.appState.isGenerating) return;
+
+      // Add user speech bubble
+      addAiChatMessage('user', val);
+      input.value = '';
+      window.appState.isGenerating = true;
+
+      // Append thinking dynamic loader
+      const loaderId = 'ai-loader-' + Date.now();
+      const loader = document.createElement('div');
+      loader.className = 'flex justify-start';
+      loader.id = loaderId;
+      loader.innerHTML = `
+        <div class="max-w-[80%] flex flex-col items-start">
+          <span class="text-[10px] text-[var(--text-muted)] mb-1 px-1.5 font-bold">🕉️ Parkash AI</span>
+          <div class="px-4 py-3 rounded-2xl text-sm bg-[var(--bg-panel)] border border-[var(--border-color)] rounded-bl-none flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-ping"></span>
+            <span class="text-[var(--text-muted)] italic">AI Guru is contemplating shlokas...</span>
+          </div>
+        </div>
+      `;
+      document.getElementById('ai-chat-messages').appendChild(loader);
+      document.getElementById('ai-chat-messages').scrollTop = document.getElementById('ai-chat-messages').scrollHeight;
+
+      try {
+        const queryLower = val.toLowerCase();
+        
+        // Check for image query
+        const imageTriggers = ['photo', 'image', 'picture', 'tasveer', 'pic', 'show me', 'draw', 'bana ke do'];
+        const wantsImage = imageTriggers.some(kw => queryLower.includes(kw));
+
+        if (wantsImage) {
+          let cleanSubject = val;
+          imageTriggers.forEach(kw => {
+            const reg = new RegExp(kw, 'gi');
+            cleanSubject = cleanSubject.replace(reg, '');
+          });
+          cleanSubject = cleanSubject.replace(/ki|ka|ko|mange|do|chahiye|of|for/gi, '').trim();
+          if(!cleanSubject) cleanSubject = "eternal dynamic cosmic mandala";
+
+          // Generate via Pollinations AI
+          const imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(cleanSubject)}?width=1024&height=1024&nocache=${Date.now()}`;
+          
+          const imgResponseHtml = `
+            <div class="space-y-3">
+              <p>Mera virtual graphics engine aapki divine painting generate kar raha hai. Yeh rahi aapki image of <strong>"${cleanSubject}"</strong>:</p>
+              <img src="${imgUrl}" class="rounded-xl border border-[var(--border-color)] max-w-full h-auto shadow-md hover:scale-[1.01] transition-transform duration-200 cursor-pointer" 
+                   onload="document.getElementById('ai-chat-messages').scrollTop = document.getElementById('ai-chat-messages').scrollHeight"
+                   onerror="this.src='https://placehold.co/600x400/1e293b/f59e0b?text=Generation+Failed'" />
+            </div>
+          `;
+
+          document.getElementById(loaderId).remove();
+          addAiChatMessage('ai', imgResponseHtml, true);
+          window.appState.isGenerating = false;
+          return;
+        }
+
+        // Standard Q&A Route
+        if (window.appState.geminiKey) {
+          const aiText = await queryGoogleGemini(val, window.appState.geminiKey);
+          document.getElementById(loaderId).remove();
+          addAiChatMessage('ai', aiText);
+        } else {
+          // Deep scriptural offline simulated fallbacks
+          let offlineAnswer = "";
+          
+          if (queryLower.includes('dharma') || queryLower.includes('karma') || queryLower.includes('peace') || queryLower.includes('sukoon')) {
+            offlineAnswer = "✨ **Parkash AI Wisdom:**\n\nKarma aur Dharma hi hamare jeevan ke sunehre asool hain. Bhagavad Gita ke Chapter 2, Verse 47 mein Lord Krishna farmate hain: 'Karmanye vadhikaraste ma phaleshu kadachana' - Yani tumhara haq sirf koshish (Duty) karne par hai, uske phal (Result) par nahi. \n\nJab aap bina kisi expectation ke apna sahi farz (Dharma) nibhayenge, toh mann ko automatically sukoon aur anand milega. Best results ke liye settings se apni free **Gemini API Key** add karen!";
+          } 
+          else if (queryLower.includes('krishna') || queryLower.includes('gita')) {
+            offlineAnswer = "🕉️ Srimad Bhagavad Gita poori insaniyat ke liye kalyan ka rasta hai. Yeh Kurukshetra ke maidan mein Arjun ko diya gaya woh gyan hai jo hamari rozmarra ki psychological struggles (dukh, fikar, aur dushwariyon) ka ultimate solution deta hai.";
+          } 
+          else if (queryLower.includes('hello') || queryLower.includes('salam') || queryLower.includes('hi')) {
+            offlineAnswer = "Pranam! Main Parkash AI assistant hoon. Main Sanatan wisdom, scriptural research, aur software coding mein expert hoon. Aapka kya sawal hai aaj?";
+          }
+          else {
+            offlineAnswer = `Aapka sawal: "${val}" hai.\n\nOffline fallback mode active hone ki wajah se replies limited hain. Lekin aap is topic par instant image/photo generate karwa sakte hain! (E.g. "photo of Lord Shiva in meditation")\n\n*Apne settings panel (gear icon) mein FREE Gemini API key enter karen taake ChatGPT ki tarah dynamic jawab mil saken!*`;
+          }
+
+          document.getElementById(loaderId).remove();
+          addAiChatMessage('ai', offlineAnswer);
+        }
+      } catch (err) {
+        document.getElementById(loaderId).remove();
+        addAiChatMessage('ai', `⚠️ Connection Interrupted: ${err.message}. Check your internet connection or Google API parameters.`);
+        showToast("AI transaction failed.", "error");
+      } finally {
+        window.appState.isGenerating = false;
+      }
+    });
+  </script>
+</body>
+</html>
